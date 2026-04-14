@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CRIANDO CRITÉRIOS DE ORGANIZAÇÃO</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f2f2f2;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+h1 { margin: 10px 0 5px 0; font-size: 24px; color: #333; }
+
+.instrucao {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 5px auto;
+}
+
+.nomes { width: 160px; }
+
+.nome {
+    background-color: #bbdefb;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 12px;
+    cursor: grab;
+    font-weight: bold;
+    font-size: 13px;
+    border: 2px solid #90caf9;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.pastas { display: flex; gap: 20px; }
+
+.pasta {
+    width: 175px;
+    min-height: 230px;
+    border: 3px dashed #777;
+    border-radius: 20px;
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens fiquem lado a lado */
+    align-content: flex-start;
+    gap: 5px;
+}
+
+.titulo-pasta {
+    width: 100%; /* Ocupa a largura toda da pasta */
+    min-height: 40px;
+    background-color: #eee;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+}
+
+/* ITENS NA ÁREA DE SELEÇÃO (NORMAIS) */
+.item {
+    width: 85px;
+    height: 105px;
+    background-color: #ffeb3b;
+    border-radius: 12px;
+    cursor: grab;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.item img {
+    max-width: 70px;
+    max-height: 60px;
+    margin: auto;
+    transition: all 0.3s;
+}
+
+/* REGRA MÁGICA: QUANDO O ITEM ESTIVER DENTRO DA PASTA */
+.pasta .item {
+    width: 65px; /* Diminui o quadradinho */
+    height: 80px;
+    font-size: 8px;
+}
+
+.pasta .item img {
+    max-width: 45px; /* Diminui a figura */
+    max-height: 40px;
+}
+
+.itens {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 10px 0;
+}
+
+.botao {
+    padding: 10px 25px;
+    font-size: 16px;
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px auto;
+    width: fit-content;
+    box-shadow: 0 4px 0 #e68a00;
+}
+
+.botao:active { transform: translateY(3px); box-shadow: 0 1px 0 #e68a00; }
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 30px;
+    width: 350px;
+    text-align: center;
+    border: 5px solid #ff9800;
+    animation: zoom 0.3s;
+}
+
+@keyframes zoom { from {transform: scale(0)} to {transform: scale(1)} }
+
+.nota-circulo {
+    width: 100px; height: 100px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 40px;
+    line-height: 100px;
+    border-radius: 50%;
+    margin: 20px auto;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: auto;
+    padding: 10px;
+    color: #555;
+    font-size: 11px;
+    border-top: 1px solid #ddd;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🗂️ CRITÉRIOS DE ORGANIZAÇÃO</h1>
+
+<p class="instrucao">
+1º escolha o nome da pasta. 2º organize os objetos.
+</p>
+
+<div class="container">
+    <div class="nomes">
+        <div class="nome" draggable="true" ondragstart="arrastar(event)">MATERIAL</div>
+        <div class="nome" draggable="true" ondragstart="arrastar(event)">BRINQUEDO</div>
+        <div class="nome" draggable="true" ondragstart="arrastar(event)">ALIMENTO</div>
+    </div>
+
+    <div class="pastas">
+        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)">
+            <div class="titulo-pasta">ARRASTE O NOME</div>
+        </div>
+        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)">
+            <div class="titulo-pasta">ARRASTE O NOME</div>
+        </div>
+        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)">
+            <div class="titulo-pasta">ARRASTE O NOME</div>
+        </div>
+    </div>
+</div>
+
+<div class="itens">
+    <div class="item" draggable="true" ondragstart="arrastar(event)">
+        <img src="https://cdn.pixabay.com/photo/2012/04/14/16/54/color-pencils-34595_1280.png">
+        LÁPIS
+    </div>
+    <div class="item" draggable="true" ondragstart="arrastar(event)">
+        <img src="https://img.freepik.com/vetores-premium/ilustracao-de-cola_757131-3284.jpg">
+        COLA
+    </div>
+    <div class="item" draggable="true" ondragstart="arrastar(event)">
+        <img src="https://static7.depositphotos.com/1029225/710/v/950/depositphotos_7109425-stock-illustration-vector-illustration-of-girl-doll.jpg">
+        BONECA
+    </div>
+    <div class="item" draggable="true" ondragstart="arrastar(event)">
+        <img src="https://vectorified.com/image/soccer-ball-vector-art-37.jpg">
+        BOLA
+    </div>
+    <div class="item" draggable="true" ondragstart="arrastar(event)">
+        <img src="https://img.freepik.com/vetores-premium/desenho-de-ilustracao-vetorial-de-apple-fruit-clip-art_1221743-2041.jpg">
+        MAÇÃ
+    </div>
+    <div class="item" draggable="true" ondragstart="arrastar(event)">
+        <img src="https://img.freepik.com/vetores-premium/bife_1095437-133.jpg">
+        BIFE
+    </div>
+</div>
+
+<button class="botao" onclick="mostrarNota()">✔ FINALIZAR</button>
+
+<div id="meuModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color: #ff9800;">ATIVIDADE CONCLUÍDA!</h2>
+        <p>Sua nota é:</p>
+        <div class="nota-circulo">10</div>
+        <p>Excelente! Você é fera na organização!</p>
+        <button class="botao" style="background-color: #333; margin-top: 10px;" onclick="fecharModal()">FECHAR</button>
+    </div>
+</div>
+
+<footer>
+    <p><strong>Disciplina: Informática - Profª Adriana Bett Terebinto</strong></p>
+    <p>São Lourenço do Oeste/SC</p>
+</footer>
+
+<script>
+let atual = null;
+
+function permitir(ev) { ev.preventDefault(); }
+
+function arrastar(ev) { atual = ev.currentTarget; }
+
+function soltar(ev) {
+    ev.preventDefault();
+    if (!atual) return;
+
+    if (atual.classList.contains("nome")) {
+        ev.currentTarget.querySelector(".titulo-pasta").innerText = atual.innerText;
+        ev.currentTarget.querySelector(".titulo-pasta").style.backgroundColor = "#bbdefb";
+    } else {
+        ev.currentTarget.appendChild(atual);
+    }
+}
+
+function mostrarNota() { document.getElementById("meuModal").style.display = "block"; }
+function fecharModal() { document.getElementById("meuModal").style.display = "none"; }
+</script>
+
+</body>
+</html>
