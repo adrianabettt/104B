@@ -60,13 +60,13 @@ h1 { margin: 10px 0 5px 0; font-size: 24px; color: #333; }
     background-color: #fff;
     padding: 10px;
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens fiquem lado a lado */
+    flex-wrap: wrap;
     align-content: flex-start;
     gap: 5px;
 }
 
 .titulo-pasta {
-    width: 100%; /* Ocupa a largura toda da pasta */
+    width: 100%;
     min-height: 40px;
     background-color: #eee;
     border-radius: 10px;
@@ -79,14 +79,13 @@ h1 { margin: 10px 0 5px 0; font-size: 24px; color: #333; }
     border: 1px solid #ccc;
 }
 
-/* ITENS NA ÁREA DE SELEÇÃO (NORMAIS) */
 .item {
-    width: 85px;
-    height: 105px;
+    width: 65px;
+    height: 85px;
     background-color: #ffeb3b;
     border-radius: 12px;
     cursor: grab;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: bold;
     padding: 5px;
     display: flex;
@@ -96,25 +95,23 @@ h1 { margin: 10px 0 5px 0; font-size: 24px; color: #333; }
 }
 
 .item img {
-    max-width: 70px;
-    max-height: 60px;
-    margin: auto;
-    transition: all 0.3s;
-}
-
-/* REGRA MÁGICA: QUANDO O ITEM ESTIVER DENTRO DA PASTA */
-.pasta .item {
-    width: 65px; /* Diminui o quadradinho */
-    height: 80px;
-    font-size: 8px;
-}
-
-.pasta .item img {
-    max-width: 45px; /* Diminui a figura */
+    max-width: 45px;
     max-height: 40px;
+    margin: auto;
 }
 
-.itens {
+/* Área de seleção original (os itens começam maiores aqui) */
+.itens-selecao .item {
+    width: 85px;
+    height: 105px;
+    font-size: 10px;
+}
+.itens-selecao .item img {
+    max-width: 60px;
+    max-height: 55px;
+}
+
+.itens-selecao {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -136,16 +133,13 @@ h1 { margin: 10px 0 5px 0; font-size: 24px; color: #333; }
     box-shadow: 0 4px 0 #e68a00;
 }
 
-.botao:active { transform: translateY(3px); box-shadow: 0 1px 0 #e68a00; }
-
-/* MODAL */
 .modal {
     display: none;
     position: fixed;
     z-index: 100;
     left: 0; top: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0,0,0,0.7);
 }
 
 .modal-content {
@@ -156,10 +150,7 @@ h1 { margin: 10px 0 5px 0; font-size: 24px; color: #333; }
     width: 350px;
     text-align: center;
     border: 5px solid #ff9800;
-    animation: zoom 0.3s;
 }
-
-@keyframes zoom { from {transform: scale(0)} to {transform: scale(1)} }
 
 .nota-circulo {
     width: 100px; height: 100px;
@@ -185,67 +176,58 @@ footer {
 <body>
 
 <h1>🗂️ CRITÉRIOS DE ORGANIZAÇÃO</h1>
-
-<p class="instrucao">
-1º escolha o nome da pasta. 2º organize os objetos.
-</p>
+<p class="instrucao">1º Escolha o nome da pasta. 2º Organize os objetos.</p>
 
 <div class="container">
     <div class="nomes">
-        <div class="nome" draggable="true" ondragstart="arrastar(event)">MATERIAL</div>
-        <div class="nome" draggable="true" ondragstart="arrastar(event)">BRINQUEDO</div>
-        <div class="nome" draggable="true" ondragstart="arrastar(event)">ALIMENTO</div>
+        <div class="nome" draggable="true" ondragstart="arrastar(event)" data-tipo="MATERIAL">MATERIAL</div>
+        <div class="nome" draggable="true" ondragstart="arrastar(event)" data-tipo="BRINQUEDO">BRINQUEDO</div>
+        <div class="nome" draggable="true" ondragstart="arrastar(event)" data-tipo="ALIMENTO">ALIMENTO</div>
     </div>
 
     <div class="pastas">
-        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)">
+        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)" data-categoria="">
             <div class="titulo-pasta">ARRASTE O NOME</div>
         </div>
-        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)">
+        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)" data-categoria="">
             <div class="titulo-pasta">ARRASTE O NOME</div>
         </div>
-        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)">
+        <div class="pasta" ondragover="permitir(event)" ondrop="soltar(event)" data-categoria="">
             <div class="titulo-pasta">ARRASTE O NOME</div>
         </div>
     </div>
 </div>
 
-<div class="itens">
-    <div class="item" draggable="true" ondragstart="arrastar(event)">
-        <img src="https://cdn.pixabay.com/photo/2012/04/14/16/54/color-pencils-34595_1280.png">
-        LÁPIS
+<div class="itens-selecao" id="origem">
+    <div class="item" draggable="true" ondragstart="arrastar(event)" data-tipo="MATERIAL">
+        <img src="https://cdn.pixabay.com/photo/2012/04/14/16/54/color-pencils-34595_1280.png"> LÁPIS
     </div>
-    <div class="item" draggable="true" ondragstart="arrastar(event)">
-        <img src="https://img.freepik.com/vetores-premium/ilustracao-de-cola_757131-3284.jpg">
-        COLA
+    <div class="item" draggable="true" ondragstart="arrastar(event)" data-tipo="MATERIAL">
+        <img src="https://img.freepik.com/vetores-premium/ilustracao-de-cola_757131-3284.jpg"> COLA
     </div>
-    <div class="item" draggable="true" ondragstart="arrastar(event)">
-        <img src="https://static7.depositphotos.com/1029225/710/v/950/depositphotos_7109425-stock-illustration-vector-illustration-of-girl-doll.jpg">
-        BONECA
+    <div class="item" draggable="true" ondragstart="arrastar(event)" data-tipo="BRINQUEDO">
+        <img src="https://static7.depositphotos.com/1029225/710/v/950/depositphotos_7109425-stock-illustration-vector-illustration-of-girl-doll.jpg"> BONECA
     </div>
-    <div class="item" draggable="true" ondragstart="arrastar(event)">
-        <img src="https://vectorified.com/image/soccer-ball-vector-art-37.jpg">
-        BOLA
+    <div class="item" draggable="true" ondragstart="arrastar(event)" data-tipo="BRINQUEDO">
+        <img src="https://vectorified.com/image/soccer-ball-vector-art-37.jpg"> BOLA
     </div>
-    <div class="item" draggable="true" ondragstart="arrastar(event)">
-        <img src="https://img.freepik.com/vetores-premium/desenho-de-ilustracao-vetorial-de-apple-fruit-clip-art_1221743-2041.jpg">
-        MAÇÃ
+    <div class="item" draggable="true" ondragstart="arrastar(event)" data-tipo="ALIMENTO">
+        <img src="https://img.freepik.com/vetores-premium/desenho-de-ilustracao-vetorial-de-apple-fruit-clip-art_1221743-2041.jpg"> MAÇÃ
     </div>
-    <div class="item" draggable="true" ondragstart="arrastar(event)">
-        <img src="https://img.freepik.com/vetores-premium/bife_1095437-133.jpg">
-        BIFE
+    <div class="item" draggable="true" ondragstart="arrastar(event)" data-tipo="ALIMENTO">
+        <img src="https://img.freepik.com/vetores-premium/bife_1095437-133.jpg"> BIFE
     </div>
 </div>
 
-<button class="botao" onclick="mostrarNota()">✔ FINALIZAR</button>
+<button class="botao" onclick="validarAtividade()">✔ FINALIZAR</button>
 
 <div id="meuModal" class="modal">
     <div class="modal-content">
-        <h2 style="color: #ff9800;">ATIVIDADE CONCLUÍDA!</h2>
+        <h2 id="modalTitulo">ATIVIDADE CONCLUÍDA!</h2>
         <p>Sua nota é:</p>
-        <div class="nota-circulo">10</div>
-        <p>Excelente! Você é fera na organização!</p>
-        <button class="botao" style="background-color: #333; margin-top: 10px;" onclick="fecharModal()">FECHAR</button>
+        <div id="notaFinal" class="nota-circulo">0</div>
+        <p id="feedbackTexto"></p>
+        <button class="botao" style="background-color: #333; margin-top: 10px;" onclick="fecharModal()">REINICIAR</button>
     </div>
 </div>
 
@@ -258,23 +240,62 @@ footer {
 let atual = null;
 
 function permitir(ev) { ev.preventDefault(); }
-
 function arrastar(ev) { atual = ev.currentTarget; }
 
 function soltar(ev) {
     ev.preventDefault();
     if (!atual) return;
 
+    let destino = ev.currentTarget;
+
     if (atual.classList.contains("nome")) {
-        ev.currentTarget.querySelector(".titulo-pasta").innerText = atual.innerText;
-        ev.currentTarget.querySelector(".titulo-pasta").style.backgroundColor = "#bbdefb";
+        destino.querySelector(".titulo-pasta").innerText = atual.innerText;
+        destino.querySelector(".titulo-pasta").style.backgroundColor = "#bbdefb";
+        // Define a categoria que a pasta deve aceitar
+        destino.setAttribute('data-categoria', atual.getAttribute('data-tipo'));
     } else {
-        ev.currentTarget.appendChild(atual);
+        destino.appendChild(atual);
     }
 }
 
-function mostrarNota() { document.getElementById("meuModal").style.display = "block"; }
-function fecharModal() { document.getElementById("meuModal").style.display = "none"; }
+function validarAtividade() {
+    const totalItens = 6;
+    let acertos = 0;
+    const pastas = document.querySelectorAll('.pasta');
+
+    pastas.forEach(pasta => {
+        const categoriaPasta = pasta.getAttribute('data-categoria');
+        const itensNaPasta = pasta.querySelectorAll('.item');
+
+        itensNaPasta.forEach(item => {
+            if (item.getAttribute('data-tipo') === categoriaPasta) {
+                acertos++;
+            }
+        });
+    });
+
+    const nota = Math.round((acertos / totalItens) * 10);
+    
+    document.getElementById('notaFinal').innerText = nota;
+    const feedback = document.getElementById('feedbackTexto');
+    
+    if(nota === 10) {
+        feedback.innerText = "Excelente! Você organizou tudo certinho!";
+        document.getElementById('notaFinal').style.backgroundColor = "#4caf50";
+    } else if (nota >= 6) {
+        feedback.innerText = "Muito bem! Mas alguns itens ficaram no lugar errado.";
+        document.getElementById('notaFinal').style.backgroundColor = "#ff9800";
+    } else {
+        feedback.innerText = "Atenção! Muitos itens estão fora do lugar. Tente de novo!";
+        document.getElementById('notaFinal').style.backgroundColor = "#f44336";
+    }
+
+    document.getElementById("meuModal").style.display = "block";
+}
+
+function fecharModal() { 
+    location.reload(); // Reinicia para o aluno tentar de novo
+}
 </script>
 
 </body>
